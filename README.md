@@ -1,24 +1,22 @@
 
-ELH Terminal - Quantitative Portfolio Management System
+ELH Terminal - Quantitative Portfolio Management System (Preview)
 
 --------------------------------------------------------------------------------
-PROJECT ABSTRACT
+PROJECT CONTEXT
 --------------------------------------------------------------------------------
-ELH Terminal is a full-stack financial analytics platform designed to bridge 
-digital asset markets with traditional macroeconomic indicators. The system 
-provides a unified interface for portfolio tracking, risk analysis, and market 
-scanning. Unlike standard portfolio trackers, this application emphasizes 
-quantitative metrics (Beta, Sharpe Ratio, Volatility) and real-time data 
-aggregation through a custom secure proxy architecture.
+This repository serves as a technical preview for a BSc Dissertation project and 
+SaaS startup prototype focused on bridging digital asset markets with traditional 
+macroeconomic indicators. The application is a full-stack financial analytics 
+dashboard designed to provide retail investors with institutional-grade insights.
 
-The application is built as a modular monolith to ensure low-latency data 
-processing and simplified deployment.
+Note: This is a development snapshot intended for code review and portfolio 
+demonstration.
 
 --------------------------------------------------------------------------------
-SYSTEM ARCHITECTURE
+TECHNICAL ARCHITECTURE
 --------------------------------------------------------------------------------
 
-1. Backend (Python/FastAPI)
+1. Backend (Python 3.10+ / FastAPI)
 The server acts as a centralized API Gateway and WebSocket Proxy. It handles:
 - Data Normalization: Unifies disparate data formats from Binance (Crypto), 
   Finnhub (Equities), and FRED (Macro) into a standardized internal schema.
@@ -27,13 +25,12 @@ The server acts as a centralized API Gateway and WebSocket Proxy. It handles:
 - Quantitative Engine: Uses NumPy and Pandas to calculate rolling volatility, 
   correlation coefficients, and Z-scores for market regime detection.
 
-2. Frontend (React/TypeScript)
+2. Frontend (React 19 / TypeScript)
 A responsive Single Page Application (SPA) optimized for data density.
-- State Management: Localized React state for high-frequency updates.
-- Visualization: Integration of Lightweight Charts (TradingView) for canvas-based 
-  rendering of OHLCV data.
-- Modules: Component-based architecture separating Market Overview, Portfolio 
-  Management, and Screener logic.
+- Visualization: Integrates Lightweight Charts (TradingView) for canvas-based 
+  rendering of financial data.
+- State Management: Uses localized React state for high-frequency updates, 
+  minimizing re-renders during WebSocket stream events.
 
 --------------------------------------------------------------------------------
 CORE FEATURES IMPLEMENTED
@@ -41,55 +38,48 @@ CORE FEATURES IMPLEMENTED
 
 1. Real-Time Market Data
    - Direct WebSocket integration with Binance for sub-second crypto price updates.
-   - Server-proxied WebSocket tunnel for Finnhub stock data to bypass CORS 
-     restrictions while maintaining security.
+   - Server-proxied WebSocket tunnel for Finnhub stock data.
 
 2. Macroeconomic Intelligence
-   - Automated ingestion of Federal Reserve Economic Data (GDP, CPI, Unemployment).
-   - Custom "Macro Score" algorithm that weights economic indicators to determine 
-     global liquidity conditions.
+   - Automated ingestion of Federal Reserve Economic Data (GDP, CPI).
+   - Custom "Macro Score" algorithm weighting liquidity and sentiment.
 
 3. Portfolio Analytics
-   - Transaction-based accounting (Buy/Sell logic with cost-basis calculation).
-   - Real-time PnL (Profit and Loss) tracking.
-   - Risk Metrics: Calculation of Portfolio Beta (relative to BTC), Annualized 
-     Volatility, and Sharpe Ratio.
+   - Transaction-based accounting with cost-basis calculation.
+   - Real-time PnL tracking and risk metrics (Sharpe Ratio, Max Drawdown).
 
-4. Asset Screener
-   - Search functionality for traditional finance assets (Stocks, ETFs, Indices).
-   - On-demand fetching of historical candle data with fallback simulation.
+4. Predictive Modeling
+   - Linear regression forecasting for price targets.
+   - Seasonality analysis using historical monthly return distributions.
 
---------------------------------------------------------------------------------
-TECHNICAL STACK
---------------------------------------------------------------------------------
-- Server: Python 3.10+, FastAPI, Uvicorn, SQLite
-- Client: React 19, TypeScript, Vite, Tailwind CSS
-- Data Science: Pandas, NumPy, SciPy
-- Protocols: REST, WebSockets, OAuth2 (JWT)
+5. AI Assistant
+   - Context-aware chatbot (Google Gemini 2.5) that ingests live portfolio state.
 
 --------------------------------------------------------------------------------
-SETUP AND INSTALLATION
+SETUP INSTRUCTIONS
 --------------------------------------------------------------------------------
 
 Prerequisites:
-- Node.js v18 or higher
-- Python 3.10 or higher
+- Node.js v18+
+- Python 3.10+
 
-Backend Setup:
+Backend:
 1. cd backend
 2. python -m venv venv
-3. source venv/bin/activate  (Windows: venv\Scripts\activate)
+3. source venv/bin/activate
 4. pip install -r requirements.txt
 5. uvicorn main:app --reload
 
-Frontend Setup:
+Frontend:
 1. cd frontend
 2. npm install
 3. npm run dev
 
 --------------------------------------------------------------------------------
-DEVELOPMENT NOTES
+DEVELOPMENT STATUS
 --------------------------------------------------------------------------------
-- Database: Uses local SQLite (`portfolio.db`). Excluded from git.
-- API Limits: Backend implements caching for Finnhub/Yahoo Finance.
-- Auth: Default credentials seeded on init.
+[x] WebSocket stability and reconnection logic.
+[x] Basic quantitative risk modeling.
+[ ] Advanced on-chain analysis.
+[ ] Electron wrapper packaging.
+
